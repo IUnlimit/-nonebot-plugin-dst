@@ -2,6 +2,7 @@ from nonebot import get_plugin_config
 from nonebot.plugin import PluginMetadata
 
 from .config import Config
+from .database import init_db
 from .model import Platform
 
 REGION = "ap-east-1"
@@ -16,6 +17,8 @@ __plugin_meta__ = PluginMetadata(
 )
 
 config = get_plugin_config(Config)
+
+init_db()
 
 from .schedule import scheduler
 

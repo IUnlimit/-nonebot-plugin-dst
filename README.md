@@ -1,2 +1,2 @@
-# -nonebot-plugin-dst
+# nonebot-plugin-dst
 DST nonebot plugin

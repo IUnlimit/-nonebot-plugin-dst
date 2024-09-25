@@ -30,7 +30,7 @@ def get_server_list(region, platform) -> List[Dict[str, any]] | str:
         return extract_error(resp)
     return resp["GET"]
 
-def get_server_detail(region, __row_id, token) -> List[Dict[str, any]] | str:
+def get_lobby_list(region, __row_id, token) -> List[Dict[str, any]] | str:
     resp = requests.post(API_GET_SERVER_DETAIL.format(**{
         "region": region
     }), json={
