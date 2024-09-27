@@ -1,13 +1,15 @@
-from nonebot import get_plugin_config
+from nonebot import get_plugin_config, logger
+from nonebot.log import default_format, default_filter
+
+logger.add("dst.log", level="INFO", format=default_format, filter=default_filter, rotation="1 day")
+
 from nonebot.plugin import PluginMetadata
 
 from .config import Config
-from .database import init_db
-from .model import Platform
+config = get_plugin_config(Config)
 
-REGION = "ap-east-1"
-PLATFORM: str = Platform.Steam.value
-TOKEN = "pds-g^KU_AQ9RWZZB^GBRTQFNi+PU4Kf/c0HYhcr0K80pZSG/wSKPTKpgKwOg="
+from .database import init_db
+from .schedule import scheduler
 
 __plugin_meta__ = PluginMetadata(
     name="dst",
@@ -16,13 +18,4 @@ __plugin_meta__ = PluginMetadata(
     config=Config,
 )
 
-config = get_plugin_config(Config)
-
 init_db()
-
-from .schedule import scheduler
-
-
-
-
-

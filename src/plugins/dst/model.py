@@ -1,6 +1,6 @@
 from enum import Enum
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, Boolean, Text, BigInteger, ForeignKey, DateTime, func, Table
+from sqlalchemy import Column, Integer, String, Boolean, Text, ForeignKey, DateTime, func, Table
 from sqlalchemy.orm import relationship
 
 
@@ -38,7 +38,7 @@ class ServerInfo(Base):
     # 1 -> n
     secondaries = relationship('ServerSecondaries')  # secondaries list
     # 1 -> n
-    lobbyRead = relationship('LobbyRead')
+    lobby_read = relationship('LobbyRead', uselist=False)
     row_id = Column(String(128), unique=True) # __rowId
     create_time = Column(DateTime, server_default=func.now())
     update_time = Column(DateTime, server_default=func.now(), onupdate=func.now())
@@ -85,7 +85,7 @@ class ServerSecondaries(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     info_id = Column(Integer, ForeignKey('server_info.id'))
     world = Column(String(128))
-    secondaries_id = Column(String(128)) # id
+    secondaries_id = Column(String(128), unique=True) # id
     addr = Column(String(128))  # __addr
     steam_id = Column(String(128))  # steamid
     port = Column(Integer)  # port
@@ -103,10 +103,14 @@ class LobbyRead(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     info_id = Column(Integer, ForeignKey('server_info.id'))
-    mod_info = relationship('ModInfo', secondary=lobby_mod_association_table)
+    mods_info = relationship('ModInfo', secondary=lobby_mod_association_table)
     data = Column(Text) # data
     world_gen = Column(Text) # worldgen
     players = Column(Text) # players
+    desc = Column(Text) # desc
+    tick = Column(Integer) # tick
+    client_mod_soff = Column(Boolean) # clientmodsoff
+    nat = Column(Integer) # nat
 
 class ModInfo(Base):
     __tablename__ = 'mod_info'
